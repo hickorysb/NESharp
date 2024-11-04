@@ -8,9 +8,9 @@ namespace NESharp;
 
 public static class Program
 {
-    public const bool DEBUG_MODE = true;
+    public const bool DEBUG_MODE = false;
 
-    private static Hardware.Motherboard motherboard = null!;
+    private static Motherboard motherboard = null!;
     
     public static void Main(string[] args)
     {
@@ -27,7 +27,7 @@ public static class Program
                 (byte)((byte)((i % 32f) * 16) + (byte)(MathF.Floor(i / 32f) * 16)));
         }
         
-        motherboard = new Hardware.Motherboard();
+        motherboard = new Motherboard();
         
         win.Closed += (_, _) =>
         {
