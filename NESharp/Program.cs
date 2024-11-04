@@ -1,5 +1,4 @@
 ﻿global using static NESharp.Utilities.CPUMath;
-using System.Net.Mime;
 using NESharp.Hardware;
 using SFML.Graphics;
 using SFML.System;
@@ -9,9 +8,9 @@ namespace NESharp;
 
 public static class Program
 {
-    public const bool DEBUG_MODE = false;
+    public const bool DEBUG_MODE = true;
 
-    private static Motherboard motherboard = null!;
+    private static Hardware.Motherboard motherboard = null!;
     
     public static void Main(string[] args)
     {
@@ -28,7 +27,7 @@ public static class Program
                 (byte)((byte)((i % 32f) * 16) + (byte)(MathF.Floor(i / 32f) * 16)));
         }
         
-        motherboard = new Motherboard();
+        motherboard = new Hardware.Motherboard();
         
         win.Closed += (_, _) =>
         {
@@ -40,18 +39,18 @@ public static class Program
 
         win.KeyPressed += (_, key) =>
         {
-            if (DEBUG_MODE && key.Code == Keyboard.Key.Space) motherboard.CPU.Resume();
-            if (key.Code == Keyboard.Key.W) motherboard.RAM.WriteByte(0xFF, 0x77);
-            if (key.Code == Keyboard.Key.S) motherboard.RAM.WriteByte(0xFF, 0x73);
-            if (key.Code == Keyboard.Key.A) motherboard.RAM.WriteByte(0xFF, 0x61);
-            if (key.Code == Keyboard.Key.D) motherboard.RAM.WriteByte(0xFF, 0x64);
+            if (DEBUG_MODE && key.Code == Keyboard.Key.Space) Motherboard.CPU.Resume();
+            if (key.Code == Keyboard.Key.W) Motherboard.RAM.WriteByte(0xFF, 0x77);
+            if (key.Code == Keyboard.Key.S) Motherboard.RAM.WriteByte(0xFF, 0x73);
+            if (key.Code == Keyboard.Key.A) Motherboard.RAM.WriteByte(0xFF, 0x61);
+            if (key.Code == Keyboard.Key.D) Motherboard.RAM.WriteByte(0xFF, 0x64);
         };
         
         while (win.IsOpen)
         {
             win.DispatchEvents();
 
-            Span<byte> screenbuf = motherboard.RAM.GetScreenMemory();
+            Span<byte> screenbuf = Motherboard.RAM.GetScreenMemory();
             
             for (int i = 0; i < matrix.Length; i++)
             {

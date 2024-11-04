@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Compare.CPX;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Compare.CPX;
 public class CPX1 : Instruction
 {
     public const byte OPCODE = 0xE0;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Immediate;
 
-    public int Call(CPU cpu)
+    public override int Call(byte value)
     {
-        byte operand = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        CPX.CompX(cpu, operand);
+        CPX.CompX(value);
         return 2;
     }
 }

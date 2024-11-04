@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Bitwise.AND;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Bitwise.AND;
 public class AND2 : Instruction
 {
     public const byte OPCODE = 0x25;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPage;
     
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        AND.AndMem(cpu, zeroPageAddress);
+        AND.AndMem(address);
         return 3;
     }
 }

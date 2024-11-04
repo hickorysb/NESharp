@@ -1,16 +1,17 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Access.STA;
 
-// STA - Absolute, X
+// STA - Absolute, Y
 public class STA5 : Instruction
 {
     public const byte OPCODE = 0x99;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.AbsoluteY;
 
-    public int Call(CPU cpu)
+    public override int Call(AddressDetails address)
     {
-        ushort address = cpu.Motherboard.RAM.ReadShort(cpu.Registers.PC.Increment(2));
-        STA.StoreA(cpu, AddUShorts(address, cpu.Registers.Y.GetValue()));
+        STA.StoreA(address.Address);
         return 5;
     }
 }

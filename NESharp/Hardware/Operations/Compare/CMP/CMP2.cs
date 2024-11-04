@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Compare.CMP;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Compare.CMP;
 public class CMP2 : Instruction
 {
     public const byte OPCODE = 0xC5;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPage;
     
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        CMP.CompA(cpu, zeroPageAddress);
+        CMP.CompA(address);
         return 3;
     }
 }

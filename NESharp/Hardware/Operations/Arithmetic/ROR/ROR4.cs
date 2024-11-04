@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Arithmetic.ROR;
@@ -5,11 +6,11 @@ namespace NESharp.Hardware.Operations.Arithmetic.ROR;
 public class ROR4 : Instruction
 {
     public const byte OPCODE = 0x6E;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Absolute;
 
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort address = cpu.Motherboard.RAM.ReadShort(cpu.Registers.PC.Increment(2));
-        cpu.Motherboard.RAM.WriteByte(address, ROR.RotateRight(cpu, address));
+        Motherboard.RAM.WriteByte(address, ROR.RotateRight(address));
         return 6;
     }
 }

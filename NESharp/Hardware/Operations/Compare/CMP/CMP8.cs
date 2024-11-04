@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Compare.CMP;
@@ -6,13 +7,11 @@ namespace NESharp.Hardware.Operations.Compare.CMP;
 public class CMP8 : Instruction
 {
     public const byte OPCODE = 0xD1;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.IndirectY;
 
-    public int Call(CPU cpu)
+    public override int Call(AddressDetails address)
     {
-        byte offset = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        ushort address = cpu.Motherboard.RAM.ReadShort(offset);
-        ushort finalAddress = AddUShorts(address, cpu.Registers.Y.GetValue());
-        CMP.CompA(cpu, finalAddress);
-        return (address & 0xFF00) != (finalAddress & 0xFF00) ? 5 : 4; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
+        CMP.CompA(address.Address);
+        return address.Crosses ? 5 : 4; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
     }
 }

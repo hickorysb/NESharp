@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Access.LDY;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Access.LDY;
 public class LDY1 : Instruction
 {
     public const byte OPCODE = 0xA0;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Immediate;
 
-    public int Call(CPU cpu)
+    public override int Call(byte value)
     {
-        byte operand = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        LDY.LoadY(cpu, operand);
+        LDY.LoadY(value);
         return 2;
     }
 }

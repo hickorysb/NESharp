@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Jump.JMP;
@@ -5,10 +6,11 @@ namespace NESharp.Hardware.Operations.Jump.JMP;
 public class JMP1 : Instruction
 {
     public const byte OPCODE = 0x4C;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Absolute;
     
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        cpu.Registers.PC.SetValue(cpu.Motherboard.RAM.ReadShort(cpu.Registers.PC.Increment(2)));
+        Motherboard.CPU.Registers.PC.SetValue(address);
         return 3;
     }
 }

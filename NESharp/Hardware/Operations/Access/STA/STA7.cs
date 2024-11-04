@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Access.STA;
@@ -6,12 +7,11 @@ namespace NESharp.Hardware.Operations.Access.STA;
 public class STA7 : Instruction
 {
     public const byte OPCODE = 0x91;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.IndirectY;
 
-    public int Call(CPU cpu)
+    public override int Call(AddressDetails address)
     {
-        byte offset = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        ushort address = cpu.Motherboard.RAM.ReadShort(offset);
-        STA.StoreA(cpu, AddUShorts(address, cpu.Registers.Y.GetValue()));
+        STA.StoreA(address.Address);
         return 6;
     }
 }

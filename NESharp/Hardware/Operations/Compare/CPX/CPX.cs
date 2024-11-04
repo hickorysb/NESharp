@@ -5,16 +5,16 @@ namespace NESharp.Hardware.Operations.Compare.CPX;
 // CPX Generic Code
 public static class CPX
 {
-    public static void CompX(CPU cpu, byte value)
+    public static void CompX(byte value)
     {
-        ushort result = Shorten(cpu.Registers.X.GetValue() - value);
-        cpu.Registers.P.SetBit(StatusBit.C, cpu.Registers.X.GetValue() >= value);
-        cpu.Registers.P.SetBit(StatusBit.Z, cpu.Registers.X.GetValue() == value);
-        cpu.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
+        ushort result = Shorten(Motherboard.CPU.Registers.X.GetValue() - value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.C, Motherboard.CPU.Registers.X.GetValue() >= value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, Motherboard.CPU.Registers.X.GetValue() == value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
     }
     
-    public static void CompX(CPU cpu, ushort address)
+    public static void CompX(ushort address)
     {
-        CompX(cpu, cpu.Motherboard.RAM.ReadByte(address));
+        CompX(Motherboard.RAM.ReadByte(address));
     }
 }

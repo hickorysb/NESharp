@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Compare.CPY;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Compare.CPY;
 public class CPY2 : Instruction
 {
     public const byte OPCODE = 0xC4;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPage;
     
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        CPY.CompY(cpu, zeroPageAddress);
+        CPY.CompY(address);
         return 3;
     }
 }

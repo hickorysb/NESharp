@@ -4,10 +4,10 @@ namespace NESharp.Hardware;
 
 public class Motherboard
 {
-    public readonly CPU CPU;
-    public readonly PPU PPU;
-    public readonly APU APU;
-    public readonly RAM RAM;
+    public static CPU CPU { get; private set; }
+    public static PPU PPU { get; private set; }
+    public static APU APU { get; private set; }
+    public static RAM RAM { get; private set; }
 
     public Motherboard()
     {

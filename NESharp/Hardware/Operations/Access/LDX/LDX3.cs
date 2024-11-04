@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Access.LDX;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Access.LDX;
 public class LDX3 : Instruction
 {
     public const byte OPCODE = 0xB6;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPageY;
     
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        LDX.LoadX(cpu, AddUShorts(zeroPageAddress, cpu.Registers.Y.GetValue()));
+        LDX.LoadX(address);
         return 4;
     }
 }

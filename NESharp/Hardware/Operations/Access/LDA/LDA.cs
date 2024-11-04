@@ -5,15 +5,15 @@ namespace NESharp.Hardware.Operations.Access.LDA;
 // Generic LDA Code
 public static class LDA
 {
-    public static void LoadA(CPU cpu, byte value)
+    public static void LoadA(byte value)
     {
-        cpu.Registers.A.SetValue(value);
-        cpu.Registers.P.SetBit(StatusBit.Z, cpu.Registers.A.GetValue() == 0);
-        cpu.Registers.P.SetBit(StatusBit.N, (cpu.Registers.A.GetValue() & 0b1000_0000) != 0);
+        Motherboard.CPU.Registers.A.SetValue(value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, Motherboard.CPU.Registers.A.GetValue() == 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (Motherboard.CPU.Registers.A.GetValue() & 0b1000_0000) != 0);
     }
 
-    public static void LoadA(CPU cpu, ushort address)
+    public static void LoadA(ushort address)
     {
-        LoadA(cpu, cpu.Motherboard.RAM.ReadByte(address));
+        LoadA(Motherboard.RAM.ReadByte(address));
     }
 }

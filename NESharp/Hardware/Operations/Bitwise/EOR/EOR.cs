@@ -5,16 +5,16 @@ namespace NESharp.Hardware.Operations.Bitwise.EOR;
 // Generic EOR Code
 public static class EOR
 {
-    public static void XorA(CPU cpu, byte value)
+    public static void XorA(byte value)
     {
-        byte result = Shorten(cpu.Registers.A.GetValue() ^ value);
-        cpu.Registers.A.SetValue(result);
-        cpu.Registers.P.SetBit(StatusBit.Z, result == 0);
-        cpu.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
+        byte result = Shorten(Motherboard.CPU.Registers.A.GetValue() ^ value);
+        Motherboard.CPU.Registers.A.SetValue(result);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, result == 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
     }
 
-    public static void XorA(CPU cpu, ushort address)
+    public static void XorA(ushort address)
     {
-        XorA(cpu, cpu.Motherboard.RAM.ReadByte(address));
+        XorA(Motherboard.RAM.ReadByte(address));
     }
 }

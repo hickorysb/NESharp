@@ -1,5 +1,6 @@
 using System.Reflection;
 using NESharp.Hardware.Operations.Other.NOP;
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware;

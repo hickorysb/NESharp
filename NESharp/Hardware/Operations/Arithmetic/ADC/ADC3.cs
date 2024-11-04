@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Arithmetic.ADC;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Arithmetic.ADC;
 public class ADC3 : Instruction
 {
     public const byte OPCODE = 0x75;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPageX;
 
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        ADC.AddA(cpu, AddUShorts(zeroPageAddress, cpu.Registers.X.GetValue()));
+        ADC.AddA(address);
         return 4;
     }
 }

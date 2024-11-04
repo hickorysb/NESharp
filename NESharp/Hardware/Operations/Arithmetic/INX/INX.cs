@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Arithmetic.INX;
@@ -5,12 +6,13 @@ namespace NESharp.Hardware.Operations.Arithmetic.INX;
 public class INX : Instruction
 {
     public const byte OPCODE = 0xE8;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Implied;
     
-    public int Call(CPU cpu)
+    public override int Call()
     {
-        cpu.Registers.X.Increment();
-        cpu.Registers.P.SetBit(StatusBit.Z, cpu.Registers.X.GetValue() == 0);
-        cpu.Registers.P.SetBit(StatusBit.N, (cpu.Registers.X.GetValue() & 0b1000_0000) != 0);
+        Motherboard.CPU.Registers.X.Increment();
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, Motherboard.CPU.Registers.X.GetValue() == 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (Motherboard.CPU.Registers.X.GetValue() & 0b1000_0000) != 0);
         return 2;
     }
 }

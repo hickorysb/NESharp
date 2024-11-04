@@ -1,3 +1,5 @@
+using NESharp.Hardware.Operations.Types;
+using NESharp.Hardware.Operations.Utilities;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Access.LDA;
@@ -6,11 +8,11 @@ namespace NESharp.Hardware.Operations.Access.LDA;
 public class LDA3 : Instruction
 {
     public const byte OPCODE = 0xB5;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPageX;
     
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        LDA.LoadA(cpu, AddUShorts(zeroPageAddress, cpu.Registers.X.GetValue()));
+        LDA.LoadA(address);
         return 4;
     }
 }

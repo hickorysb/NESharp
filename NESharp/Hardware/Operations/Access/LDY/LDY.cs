@@ -5,15 +5,15 @@ namespace NESharp.Hardware.Operations.Access.LDY;
 // Generic LDY Code
 public static class LDY
 {
-    public static void LoadY(CPU cpu, byte value)
+    public static void LoadY(byte value)
     {
-        cpu.Registers.Y.SetValue(value);
-        cpu.Registers.P.SetBit(StatusBit.Z, cpu.Registers.Y.GetValue() == 0);
-        cpu.Registers.P.SetBit(StatusBit.N, (cpu.Registers.Y.GetValue() & 0b1000_0000) != 0);
+        Motherboard.CPU.Registers.Y.SetValue(value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, Motherboard.CPU.Registers.Y.GetValue() == 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (Motherboard.CPU.Registers.Y.GetValue() & 0b1000_0000) != 0);
     }
 
-    public static void LoadY(CPU cpu, ushort address)
+    public static void LoadY(ushort address)
     {
-        LoadY(cpu, cpu.Motherboard.RAM.ReadByte(address));
+        LoadY(Motherboard.RAM.ReadByte(address));
     }
 }

@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Flags.CLV;
@@ -5,10 +6,11 @@ namespace NESharp.Hardware.Operations.Flags.CLV;
 public class CLV : Instruction
 {
     public const byte OPCODE = 0xB8;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Implied;
     
-    public int Call(CPU cpu)
+    public override int Call()
     {
-        cpu.Registers.P.SetBit(StatusBit.V, false);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.V, false);
         return 2;
     }
 }

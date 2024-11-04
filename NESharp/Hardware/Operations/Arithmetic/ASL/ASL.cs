@@ -4,20 +4,20 @@ namespace NESharp.Hardware.Operations.Arithmetic.ASL;
 
 public static class ASL
 {
-    public static byte ShiftLeft(CPU cpu, byte value)
+    public static byte ShiftLeft(byte value)
     {
-        cpu.Registers.P.SetBit(StatusBit.C, (value & 0b1000_0000) != 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.C, (value & 0b1000_0000) != 0);
 
         value <<= 1;
         
-        cpu.Registers.P.SetBit(StatusBit.Z, value == 0);
-        cpu.Registers.P.SetBit(StatusBit.N, (value & 0b1000_0000) != 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, value == 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (value & 0b1000_0000) != 0);
 
         return value;
     }
 
-    public static byte ShiftLeft(CPU cpu, ushort address)
+    public static byte ShiftLeft(ushort address)
     {
-        return ShiftLeft(cpu, cpu.Motherboard.RAM.ReadByte(address));
+        return ShiftLeft(Motherboard.RAM.ReadByte(address));
     }
 }

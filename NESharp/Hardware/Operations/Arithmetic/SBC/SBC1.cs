@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Arithmetic.SBC;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Arithmetic.SBC;
 public class SBC1 : Instruction
 {
     public const byte OPCODE = 0xE9;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Immediate;
 
-    public int Call(CPU cpu)
+    public override int Call(byte value)
     {
-        byte operand = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        SBC.SubA(cpu, operand);
+        SBC.SubA(value);
         return 2;
     }
 }

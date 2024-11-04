@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Bitwise.BIT;
@@ -5,11 +6,11 @@ namespace NESharp.Hardware.Operations.Bitwise.BIT;
 public class BIT1 : Instruction
 {
     public const byte OPCODE = 0x24;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPage;
 
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        BIT.BitTest(cpu, zeroPageAddress);
+        BIT.BitTest(address);
         return 3;
     }
 }

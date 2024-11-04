@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Arithmetic.DEC;
@@ -5,11 +6,11 @@ namespace NESharp.Hardware.Operations.Arithmetic.DEC;
 public class DEC1 : Instruction
 {
     public const byte OPCODE = 0xC6;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPage;
 
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        DEC.DecMem(cpu, zeroPageAddress);
+        DEC.DecMem(address);
         return 5;
     }
 }

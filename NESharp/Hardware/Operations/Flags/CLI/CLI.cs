@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Flags.CLI;
@@ -5,10 +6,11 @@ namespace NESharp.Hardware.Operations.Flags.CLI;
 public class CLI : Instruction
 {
     public const byte OPCODE = 0x58;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Implied;
     
-    public int Call(CPU cpu)
+    public override int Call()
     {
-        cpu.Registers.P.SetBit(StatusBit.I, false);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.I, false);
         return 2;
     }
 }

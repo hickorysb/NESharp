@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Bitwise.AND;
@@ -6,12 +7,11 @@ namespace NESharp.Hardware.Operations.Bitwise.AND;
 public class AND5 : Instruction
 {
     public const byte OPCODE = 0x3D;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.AbsoluteX;
 
-    public int Call(CPU cpu)
+    public override int Call(AddressDetails address)
     {
-        ushort address = cpu.Motherboard.RAM.ReadShort(cpu.Registers.PC.Increment(2));
-        ushort finalAddress = AddUShorts(address, cpu.Motherboard.CPU.Registers.X.GetValue());
-        AND.AndMem(cpu, finalAddress);
-        return (address & 0xFF00) != (finalAddress & 0xFF00) ? 5 : 4; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
+        AND.AndMem(address.Address);
+        return address.Crosses ? 5 : 4; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
     }
 }

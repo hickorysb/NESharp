@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Bitwise.EOR;
@@ -6,11 +7,11 @@ namespace NESharp.Hardware.Operations.Bitwise.EOR;
 public class EOR2 : Instruction
 {
     public const byte OPCODE = 0x45;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.ZeroPage;
     
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort zeroPageAddress = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        EOR.XorA(cpu, zeroPageAddress);
+        EOR.XorA(address);
         return 3;
     }
 }

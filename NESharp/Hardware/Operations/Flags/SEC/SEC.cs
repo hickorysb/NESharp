@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Flags.SEC;
@@ -5,10 +6,11 @@ namespace NESharp.Hardware.Operations.Flags.SEC;
 public class SEC : Instruction
 {
     public const byte OPCODE = 0x38;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Implied;
     
-    public int Call(CPU cpu)
+    public override int Call()
     {
-        cpu.Registers.P.SetBit(StatusBit.C, true);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.C, true);
         return 2;
     }
 }

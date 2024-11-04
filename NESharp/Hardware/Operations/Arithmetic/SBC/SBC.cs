@@ -5,19 +5,19 @@ namespace NESharp.Hardware.Operations.Arithmetic.SBC;
 // GENERIC SBC CODE
 public static class SBC
 {
-    public static void SubA(CPU cpu, byte value)
+    public static void SubA(byte value)
     {
-        byte original = cpu.Registers.A.GetValue();
-        int result = original + ~value + (cpu.Registers.P.Carry ? 1 : 0);
-        cpu.Registers.P.SetBit(StatusBit.C, !(result < 0x00));
-        cpu.Registers.P.SetBit(StatusBit.Z, result == 0);
-        cpu.Registers.P.SetBit(StatusBit.V, ((result ^ cpu.Registers.A.GetValue()) & (result ^ ~value) & 0x80) != 0);
-        cpu.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
-        cpu.Registers.A.SetValue(Shorten(result));
+        byte original = Motherboard.CPU.Registers.A.GetValue();
+        int result = original + ~value + (Motherboard.CPU.Registers.P.Carry ? 1 : 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.C, !(result < 0x00));
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, result == 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.V, ((result ^ Motherboard.CPU.Registers.A.GetValue()) & (result ^ ~value) & 0x80) != 0);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
+        Motherboard.CPU.Registers.A.SetValue(Shorten(result));
     }
     
-    public static void SubA(CPU cpu, ushort address)
+    public static void SubA(ushort address)
     {
-        SubA(cpu, cpu.Motherboard.RAM.ReadByte(address));
+        SubA(Motherboard.RAM.ReadByte(address));
     }
 }

@@ -1,3 +1,5 @@
+using NESharp.Hardware.Operations.Types;
+using NESharp.Hardware.Operations.Utilities;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Access.LDA;
@@ -6,13 +8,11 @@ namespace NESharp.Hardware.Operations.Access.LDA;
 public class LDA8 : Instruction
 {
     public const byte OPCODE = 0xB1;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.IndirectY;
 
-    public int Call(CPU cpu)
+    public override int Call(AddressDetails address)
     {
-        byte offset = cpu.Motherboard.RAM.ReadByte(cpu.Registers.PC.Increment());
-        ushort address = cpu.Motherboard.RAM.ReadShort(offset);
-        ushort finalAddress = AddUShorts(address, cpu.Registers.Y.GetValue());
-        LDA.LoadA(cpu, finalAddress);
-        return (address & 0xFF00) != (finalAddress & 0xFF00) ? 6 : 5; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
+        LDA.LoadA(address.Address);
+        return address.Crosses ? 6 : 5; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
     }
 }

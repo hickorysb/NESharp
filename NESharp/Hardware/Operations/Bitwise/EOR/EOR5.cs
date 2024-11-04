@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Bitwise.EOR;
@@ -6,12 +7,11 @@ namespace NESharp.Hardware.Operations.Bitwise.EOR;
 public class EOR5 : Instruction
 {
     public const byte OPCODE = 0x5D;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.AbsoluteX;
 
-    public int Call(CPU cpu)
+    public override int Call(AddressDetails address)
     {
-        ushort address = cpu.Motherboard.RAM.ReadShort(cpu.Registers.PC.Increment(2));
-        ushort finalAddress = AddUShorts(address, cpu.Motherboard.CPU.Registers.X.GetValue());
-        EOR.XorA(cpu, finalAddress);
-        return (address & 0xFF00) != (finalAddress & 0xFF00) ? 5 : 4; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
+        EOR.XorA(address.Address);
+        return address.Crosses ? 5 : 4; // CHECK FOR BOUNDARY CROSSING ("oops" cycle)
     }
 }

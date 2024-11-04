@@ -6,6 +6,11 @@ public static class CPUMath
     {
         return (ushort)(a + b);
     }
+    
+    public static ushort SubUShorts(ushort a, ushort b)
+    {
+        return (ushort)(a - b);
+    }
 
     public static byte Shorten(ushort a)
     {

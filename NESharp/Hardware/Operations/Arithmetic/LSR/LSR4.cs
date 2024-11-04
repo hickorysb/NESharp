@@ -1,3 +1,4 @@
+using NESharp.Hardware.Operations.Types;
 using NESharp.Hardware.Types;
 
 namespace NESharp.Hardware.Operations.Arithmetic.LSR;
@@ -5,11 +6,11 @@ namespace NESharp.Hardware.Operations.Arithmetic.LSR;
 public class LSR4 : Instruction
 {
     public const byte OPCODE = 0x4E;
+	public override AddressingMode AddressingMode { get; set; } = AddressingMode.Absolute;
 
-    public int Call(CPU cpu)
+    public override int Call(ushort address)
     {
-        ushort address = cpu.Motherboard.RAM.ReadShort(cpu.Registers.PC.Increment(2));
-        cpu.Motherboard.RAM.WriteByte(address, LSR.ShiftRight(cpu, address));
+        Motherboard.RAM.WriteByte(address, LSR.ShiftRight(address));
         return 6;
     }
 }

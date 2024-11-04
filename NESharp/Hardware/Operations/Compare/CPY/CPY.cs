@@ -5,16 +5,16 @@ namespace NESharp.Hardware.Operations.Compare.CPY;
 // CPY Generic Code
 public static class CPY
 {
-    public static void CompY(CPU cpu, byte value)
+    public static void CompY(byte value)
     {
-        ushort result = Shorten(cpu.Registers.Y.GetValue() - value);
-        cpu.Registers.P.SetBit(StatusBit.C, cpu.Registers.Y.GetValue() >= value);
-        cpu.Registers.P.SetBit(StatusBit.Z, cpu.Registers.Y.GetValue() == value);
-        cpu.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
+        ushort result = Shorten(Motherboard.CPU.Registers.Y.GetValue() - value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.C, Motherboard.CPU.Registers.Y.GetValue() >= value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.Z, Motherboard.CPU.Registers.Y.GetValue() == value);
+        Motherboard.CPU.Registers.P.SetBit(StatusBit.N, (result & 0b1000_0000) != 0);
     }
     
-    public static void CompY(CPU cpu, ushort address)
+    public static void CompY(ushort address)
     {
-        CompY(cpu, cpu.Motherboard.RAM.ReadByte(address));
+        CompY(Motherboard.RAM.ReadByte(address));
     }
 }
